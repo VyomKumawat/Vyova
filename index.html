@@ -80,7 +80,7 @@
       width: 100%;
       border-radius: 30px;
       overflow: hidden;
-      box-shadow: 0 0 12px rgba(102, 0, 102, 0.4); /* purple shadow */
+      box-shadow: 0 0 12px rgba(102, 0, 102, 0.4);
       background: rgba(51, 0, 51, 0.4);
     }
 
@@ -90,7 +90,7 @@
       padding: 12px 20px;
       font-size: 1rem;
       background: transparent;
-      color: #d0b3ff; /* light purple text */
+      color: #d0b3ff;
       outline: none;
     }
 
@@ -175,16 +175,43 @@
       opacity: 0.5;
       color: #b399cc;
     }
+
+    /* ===== MUTE BUTTON ===== */
+    #muteBtn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: rgba(102, 0, 102, 0.7);
+      color: #fff;
+      border: none;
+      border-radius: 50px;
+      padding: 10px 20px;
+      cursor: pointer;
+      font-weight: bold;
+      z-index: 10;
+      transition: background 0.3s ease;
+    }
+
+    #muteBtn:hover {
+      background: rgba(102, 0, 102, 0.9);
+    }
   </style>
 </head>
 
 <body>
 
+  <!-- Background Music -->
+  <audio id="bgMusic" autoplay loop>
+    <source src="background.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+  <button id="muteBtn">Mute</button>
+
   <!-- Parallax Background -->
   <div class="parallax-bg"></div>
 
   <header>
-    <img src="vyova.png" alt="Vyova Music" class="logo" />
+    <img src="vyova.png" alt="Vyova Music Logo" class="logo" />
     <h1>VYOVA</h1>
     <div class="tagline">headphones on. world off.</div>
   </header>
@@ -209,17 +236,7 @@
       Late nights, quiet thoughts, and songs that feel heavier than silence.
     </div>
 
-    <!-- Spotify Playlist -->
-    <div class="spotify-embed">
-      <iframe
-        src="https://open.spotify.com/embed/playlist/6tk1KDLudjpFVRRVkzkT7y?utm_source=generator"
-        width="100%"
-        height="380"
-        frameborder="0"
-        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
-        loading="lazy"
-      ></iframe>
-    </div>
+    
 
     <!-- Playlist Cards -->
     <div class="playlists">
@@ -265,6 +282,24 @@
       window.open(searchUrl, "_blank");
       return false;
     }
+
+    // Mute/unmute button
+    const music = document.getElementById('bgMusic');
+    const muteBtn = document.getElementById('muteBtn');
+    muteBtn.addEventListener('click', () => {
+      if (music.paused) {
+        music.play();
+        muteBtn.textContent = "Mute";
+      } else {
+        music.pause();
+        muteBtn.textContent = "Unmute";
+      }
+    });
+
+    // Mobile autoplay workaround
+    window.addEventListener('click', () => {
+      if (music.paused) music.play();
+    }, { once: true });
   </script>
 </body>
 </html>
